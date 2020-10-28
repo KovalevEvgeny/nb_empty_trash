@@ -85,14 +85,14 @@ define([
 
         if ( $('#btnDeleteTrash').length ) {
             $('#btnDeleteTrash').attr(
-                'title', 'Trash',
+                'title', 'Empty Trash',
             )
         } else {
             $('#trash-disk-metric').append(
                 $('<button/>', {
                     type: 'button',
                     id: 'btnDeleteTrash',
-                    title: 'Trash',
+                    title: 'Empty Trash',
                     class: 'nb_tree_buttons btn btn-default btn-xs',
                     text: 'Empty Trash'
                 }).on('click', function() {
