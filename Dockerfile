@@ -1,7 +1,7 @@
 FROM jupyter/minimal-notebook:dc9744740e12
 
 USER root
-RUN pip install git+git://github.com/edina/nb_empty_trash.git#egg=nb_empty_trash
+RUN pip install git+git://https://github.com/KovalevEvgeny/nb_empty_trash#egg=nb_empty_trash
 # WORKDIR /srv
 # COPY . empty-trash
 # RUN pip install /srv/empty-trash/

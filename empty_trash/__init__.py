@@ -6,8 +6,6 @@ from notebook.utils import url_path_join
 from tornado import ioloop
 
 from empty_trash.config import ResourceUseDisplay
-from empty_trash.metrics import TrashMetricsLoader
-from empty_trash.prometheus import PrometheusHandler
 
 
 def _jupyter_server_extension_paths():
@@ -50,9 +48,3 @@ def load_jupyter_server_extension(nbapp):
     # This is for the delete-trash stuff
     route_pattern = url_path_join(nbapp.web_app.settings["base_url"], "/del_trash")
     nbapp.web_app.add_handlers(".*", [(route_pattern, DeleteTrash)])
-
-    # This is the ever-shouting promethius loop for values
-    callback = ioloop.PeriodicCallback(
-        PrometheusHandler(TrashMetricsLoader(nbapp)), 1000
-    )
-    callback.start()

@@ -2,8 +2,6 @@ from mock import MagicMock
 from mock import patch
 
 from ..config import ResourceUseDisplay
-from ..metrics import TrashMetricsLoader
-from ..prometheus import PrometheusHandler
 
 
 class TestBasic:

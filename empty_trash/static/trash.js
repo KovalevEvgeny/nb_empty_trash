@@ -15,8 +15,6 @@ define([
                         $('<div>')
                             .attr('id', 'trash-disk-metric')
                             .attr('style', 'display: inline-block')
-                        ).append(
-                        $('<div>').attr('id', 'trash-disk-size')
                         ).insertBefore($('#alternate_upload'));
 
         $('head').append(
@@ -78,8 +76,6 @@ define([
     }
 
     function displayTrashButton(data) {
-        // usage is [full match, numeric]
-        let usage = metric('trash_usage', data);
         
         var _get_cookie = function (name) {
             // from tornado docs: http://www.tornadoweb.org/en/stable/guide/security.html
@@ -89,14 +85,14 @@ define([
 
         if ( $('#btnDeleteTrash').length ) {
             $('#btnDeleteTrash').attr(
-                'title', 'Trash size: ' + humanFileSize(parseFloat(usage[2])),
+                'title', 'Trash',
             )
         } else {
             $('#trash-disk-metric').append(
                 $('<button/>', {
                     type: 'button',
                     id: 'btnDeleteTrash',
-                    title: 'Trash size: ' + humanFileSize(parseFloat(usage[2])),
+                    title: 'Trash',
                     class: 'nb_tree_buttons btn btn-default btn-xs',
                     text: 'Empty Trash'
                 }).on('click', function() {
@@ -130,41 +126,6 @@ define([
         )};
     };
 
-    function displayDisk(data) {
-        let totalUsage = metric("total_home_usage", data);
-        let maxUsage = metric("max_home_usage", data);
-        if (maxUsage[2] <= 0)
-            return;
-
-        // green: #84e184; orange: #ff944d; red: #ff3333; emergency (maroon): '#800000'
-        let percentage = (parseFloat(totalUsage[2]) / parseFloat(maxUsage[2])) * 100;
-        let colour = percentage > 100 ? '#800000' :
-            percentage > 90 ? '#ff3333' :
-            percentage > 75 ? '#ff944d' : '#84e184';
-        percentage = percentage > 100 ? 100 : percentage;  // cap at 100 percent
-        percentage = percentage.toFixed(2) + '%';
-
-
-        totalUsage = humanFileSize(parseFloat(totalUsage[2]));
-        maxUsage = humanFileSize(parseFloat(maxUsage[2]));
-
-        var display = totalUsage + "/" + maxUsage;
-
-        $('#trash-disk-size')
-            .text( 'Disk')
-            .css('display', 'inline-block')
-            .attr('class', 'trash_common trash-disk')
-            .attr('title', display)
-            .css('border-color', colour)
-            .append(
-                $('<span>').text(' ')
-                .attr('class', 'trash-common_bar trash-disk_bar')
-            )
-        $('.nbresuse-disk_bar')
-            .css('width', percentage)
-            .css('background', colour);
-    };
-
     var displayButtons = function() {
         // if (document.hidden) {
         //     // Don't poll when nobody is looking
@@ -177,7 +138,6 @@ define([
             url: utils.get_body_data('baseUrl') + 'metrics',
             success: function(data) {
                 displayTrashButton(data);
-                displayDisk(data);
         }});
     };
 
